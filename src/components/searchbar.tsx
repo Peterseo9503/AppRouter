@@ -10,16 +10,8 @@ export default function Searchbar() {
     setSearch(e.target.value);
   };
 
-  const onSearch = () => {
-    if (search.trim()) {
-      router.push(`/search?q=${encodeURIComponent(search)}`);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onSearch();
-    }
+  const onSubmit = () => {
+    router.push(`/search?q=${search}`);
   };
 
   return (
@@ -27,10 +19,9 @@ export default function Searchbar() {
       <input
         value={search}
         onChange={onChangeSearch}
-        onKeyPress={handleKeyPress}
         placeholder="검색어를 입력하세요"
       />
-      <button onClick={onSearch}>검색</button>
+      <button onClick={onSubmit}>검색</button>
     </div>
   );
 }
