@@ -10,7 +10,8 @@ import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 async function AllBooks() {
   await delay(1500);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+    { cache: "force-cache" }
   );
   if (!response.ok) {
     return <div>오류가 발생하였습니다...</div>;
@@ -28,22 +29,26 @@ async function AllBooks() {
 
 async function RecoBooks() {
   await delay(3000);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`,
-    { next: { revalidate: 3 } }
-  );
-  if (!response.ok) return <div>오류가 발생했습니다...</div>;
-  const recoBooks: BookData[] = await response.json();
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`,
+      { next: { revalidate: 3 } }
+    );
+    if (!response.ok) return <div>오류가 발생했습니다...</div>;
+    const recoBooks: BookData[] = await response.json();
 
-  return (
-    <div>
-      {recoBooks.map((book) => (
-        <BookItem key={book.id} {...book} />
-      ))}
-    </div>
-  );
+    return (
+      <div>
+        {recoBooks.map((book) => (
+          <BookItem key={book.id} {...book} />
+        ))}
+      </div>
+    );
+  } catch (e) {
+    console.error(e);
+    return <div>ERROR</div>;
+  }
 }
-
 export const dynamic = "force-dynamic";
 
 export default async function Home() {

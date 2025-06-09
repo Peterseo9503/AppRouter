@@ -4,19 +4,25 @@ import style from "./layout.module.css";
 import { BookData } from "@/types";
 
 async function Footer() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`
-  );
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+      { cache: "force-cache" }
+    );
 
-  const books: BookData[] = await response.json();
-  const bookCount = books.length;
+    const books: BookData[] = await response.json();
+    const bookCount = books.length;
 
-  return (
-    <footer>
-      <div>제작 서동현</div>
-      <div>book count : {bookCount}</div>
-    </footer>
-  );
+    return (
+      <footer>
+        <div>제작 서동현</div>
+        <div>book count : {bookCount}</div>
+      </footer>
+    );
+  } catch (e) {
+    console.error(e);
+    <div>ERROR</div>;
+  }
 }
 
 export default function RootLayout({
