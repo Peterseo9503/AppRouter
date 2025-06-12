@@ -1,9 +1,8 @@
 "use server";
 
-export async function createReviewAction(formData: FormData) {
-  console.log("server action called");
-  console.log(formData);
+import { revalidatePath } from "next/cache";
 
+export async function createReviewAction(formData: FormData) {
   const bookId = formData.get("bookId")?.toString();
   const content = formData.get("content")?.toString();
   const author = formData.get("author")?.toString();
@@ -21,6 +20,7 @@ export async function createReviewAction(formData: FormData) {
       }
     );
     console.log(response.status);
+    revalidatePath(`/book/${bookId}`);
   } catch (err) {
     console.error(err);
     return;

@@ -53,6 +53,11 @@ async function ReviewList({ bookId }: { bookId: string }) {
   );
 }
 
+// async function ReviewList({bookId}){
+
+//   return <section></section>
+// }
+
 export default async function Page({
   params,
 }: {
