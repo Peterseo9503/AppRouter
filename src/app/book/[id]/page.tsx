@@ -2,6 +2,7 @@ import ReviewEditor from "@/components/review-editor";
 import ReviewItem from "@/components/review-item";
 import { ReviewData } from "@/types";
 import style from "./page.module.css";
+import Image from "next/image";
 async function BookDetail({ bookId }: { bookId: string }) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`
@@ -19,7 +20,16 @@ async function BookDetail({ bookId }: { bookId: string }) {
           className={style.cover_img_container}
           style={{ backgroundImage: `url('${coverImgUrl}')` }}
         >
-          <img src={coverImgUrl} />
+          <Image
+            src={coverImgUrl}
+            width={80}
+            height={105}
+            alt={`도서 ${coverImgUrl} 커버이미지 `}
+            priority
+            quality={85}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          />
         </div>
         <div className={style.title}>{title}</div>
         <div className={style.subTitle}>{subTitle}</div>
